@@ -1,0 +1,9 @@
+--extra-index-url https://download.pytorch.org/whl/cu118
+pyyaml==6.0.2
+qdrant-client==1.15.0
+pdfminer.six==20250506
+gradio==5.38.2
+torch==2.7.1
+fastapi==0.116.1
+sentence-transformers==5.0.0
+huggingface-hub==0.34.1
