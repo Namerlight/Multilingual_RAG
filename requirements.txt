@@ -7,3 +7,5 @@ torch==2.7.1
 fastapi==0.116.1
 sentence-transformers==5.0.0
 huggingface-hub==0.34.1
+openai==1.97.1
+bnlp_toolkit==4.0.3

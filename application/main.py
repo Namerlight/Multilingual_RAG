@@ -4,42 +4,23 @@ from openai import OpenAI
 import yaml
 import os
 
-from retrieval import fetch_relevant_texts
+from retrieval import fetch_relevant_texts, RAGSystem
 
-path_to_envs = os.path.join("..", "envs", "keys.yaml")
-
-with open(path_to_envs, "r") as f:
-    config = yaml.safe_load(f)
-openai_api_key = config["openai"]["api_key"]
-
-client = OpenAI(api_key=config["openai"]["api_key"])
-
+RAGQA = RAGSystem()
 app = FastAPI()
 
-# Input model for POST request
 class TextInput(BaseModel):
     text: str
 
 @app.get("/")
 def read_root():
-    return {"message": "10MS_RAG"}
+    print("Executing root request.")
+    return {"message": "Multilingual RAG Application for 10MS Technical Assessment."}
 
 @app.post("/rag_chat")
 def process_text(data: TextInput):
 
-    prompt = f"""{data.text}
+    output = RAGQA.generate_response(user_query=data.text)
 
-    Use the following information to help answer the question.
-
-    {fetch_relevant_texts(data.text)}
-
-    Answer in one line in the same language as the question."""
-
-    response = client.responses.create(
-        model="gpt-4o",
-        input=f"User input: {data.text}"
-    )
-
-    output = response.output_text
-    return {"processed_text": output}
+    return {"Answer": output}
 
